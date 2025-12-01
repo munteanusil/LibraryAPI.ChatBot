@@ -1,4 +1,5 @@
 Bookstore API Backend 
+
 This repository contains the Backend API implementation for a modern online bookstore management system. The project offers a full set of CRUD (Create, Read, Update, Delete) functionalities for managing books, authors, and categories, including the definition of essential entity relationships.
 
 Designed as a robust foundation, this API is the first phase of a larger project aiming for integration into an intelligent bookstore chatbot (via WhatsApp/Telegram APIs) and a possible dedicated Angular Frontend interface.
