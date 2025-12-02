@@ -7,7 +7,9 @@ A production-ready, scalable backend API for a modern online bookstore managemen
 Screenshots:
 
 API Documentation	Database Schema
+
 <img width="292" height="552" alt="Swagger Documentation" src="https://github.com/user-attachments/assets/f0b3c53c-2138-4251-8cca-24de2bd3e7b9" />	<img width="375" height="476" alt="Database Schema" src="https://github.com/user-attachments/assets/ac20fce1-ee9a-4276-9a75-0d877c268fd0" />
+
 ✨ Core Features
 📖 Book Management
 Create: Add new books with comprehensive metadata
@@ -222,12 +224,3 @@ Open a Pull Request
 
 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-📞 Support & Contact
-For questions, suggestions, or collaboration opportunities:
-
-GitHub Issues: Report bugs or request features
-
-Documentation: API Reference
-
-Email: engineering@bookstore.example
