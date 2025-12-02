@@ -1,8 +1,6 @@
 📚 Bookstore API Backend
 https://img.shields.io/badge/.NET-8-512BD4?logo=dotnet
-https://img.shields.io/badge/ASP.NET_Core-8.0-512BD4?logo=asp.net
-https://img.shields.io/badge/EF_Core-8.0-512BD4?logo=dotnet
-https://img.shields.io/badge/license-MIT-blue.svg
+
 
 🚀 Overview
 A production-ready, scalable backend API for a modern online bookstore management system. This robust solution provides comprehensive CRUD operations for managing books, authors, and categories with optimized performance and clean architecture patterns.
