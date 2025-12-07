@@ -2,6 +2,7 @@
 using Library.Domain.Common;
 using Library.Domain.Entities;
 using Library.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,29 +19,48 @@ namespace Library.Infrastructure.Persistance
         {
           _libraryContext = libraryContext;
         }
-        public Task CreateGenre(Book book, CancellationToken ct = default)
+        public async Task CreateGenre(Genre genre, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            await _libraryContext.Genres.AddAsync(genre,ct);
+            await _libraryContext.SaveChangesAsync(ct);    
         }
 
-        public Task DeleteGenre(Book book, CancellationToken ct = default)
+        public async Task DeleteGenre(int id, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var genToRemove = await _libraryContext.Genres.FirstOrDefaultAsync(g => g.Id == id,ct);
+            if(genToRemove == null)
+            {
+                throw new KeyNotFoundException($"Genre with id: {id} not found ");
+
+            }
+            _libraryContext.Genres.Remove(genToRemove);
+            await _libraryContext.SaveChangesAsync(ct); 
         }
 
-        public Task<Book> GetGenreById(int id, CancellationToken ct = default)
+        public async Task<Genre?> GetGenreById(int id, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            return await _libraryContext.Genres.FirstOrDefaultAsync(g => g.Id == id, ct);
+
         }
 
-        public Task<PaginetedList<Book>> GetGenres(int page, int pageSize, CancellationToken ct = default)
+        public async Task<PaginetedList<Genre>> GetGenres(int page, int pageSize, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var total = await _libraryContext.Genres.CountAsync(ct);
+            var genres = await _libraryContext.Genres
+                 .AsNoTracking()
+                 .OrderBy(a => a.Id)
+                 .Skip((page - 1) * pageSize)
+                 .Take(pageSize)
+                 .ToListAsync(ct);
+
+            return new PaginetedList<Genre>(genres, page, (int)Math.Ceiling((double)total / pageSize));
+
         }
 
-        public Task UpdateGenre(Book book, CancellationToken ct = default)
+        public async Task UpdateGenre(Genre genre, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            _libraryContext.Genres.Update(genre);
+            await _libraryContext.SaveChangesAsync(ct);
         }
     }
 }

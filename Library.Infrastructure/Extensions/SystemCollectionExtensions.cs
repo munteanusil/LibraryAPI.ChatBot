@@ -1,4 +1,5 @@
-﻿using Library.Application.Interfaces;
+﻿using Library.Application.DTOs.Authors;
+using Library.Application.Interfaces;
 using Library.Infrastructure.Data;
 using Library.Infrastructure.Data.Configuration;
 using Library.Infrastructure.Persistance;
@@ -33,6 +34,12 @@ namespace Library.Infrastructure.Extensions
             services.AddScoped<IGenreRepository,GenreRepository>();
 
             return services;
-         }
+        }
+
+        public static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(AuthorMappingProfile).Assembly);
+            return services;
+        }
     }
 }

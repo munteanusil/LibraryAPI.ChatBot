@@ -17,6 +17,7 @@ namespace LibraryAPI
             builder.Services.AddSwaggerGen();
             builder.Services.ConfigureEFCore(builder.Configuration);
             builder.Services.ConfigureRepositories();
+            builder.Services.ConfigureAutoMapper();
             
                 
             var app = builder.Build();

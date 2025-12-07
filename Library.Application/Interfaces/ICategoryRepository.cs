@@ -12,7 +12,7 @@ namespace Library.Application.Interfaces
     {
         Task<PaginetedList<Category>> GetCategorys(int page, int pageSize, CancellationToken ct = default);
 
-        Task<Category> GetCategoryById(int id,CancellationToken ct = default);
+        Task<Category?> GetCategoryById(int id,CancellationToken ct = default);
 
         Task CreateCategory(Category category, CancellationToken ct = default);
         Task UpdateCategory(Category category, CancellationToken ct = default);

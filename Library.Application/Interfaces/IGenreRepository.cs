@@ -12,10 +12,10 @@ namespace Library.Application.Interfaces
     {
         Task<PaginetedList<Genre>> GetGenres(int page, int pageSize, CancellationToken ct = default);
 
-        Task<Genre> GetGenreById(int id,CancellationToken ct = default);
+        Task<Genre?> GetGenreById(int id,CancellationToken ct = default);
 
-        Task CreateGenre(Genre book, CancellationToken ct = default);
-        Task UpdateGenre(Genre book, CancellationToken ct = default);
+        Task CreateGenre(Genre genre, CancellationToken ct = default);
+        Task UpdateGenre(Genre genre, CancellationToken ct = default);
         Task DeleteGenre(int id , CancellationToken ct = default);
       
     }

@@ -144,7 +144,7 @@ namespace Library.Tests
 
 
         [Fact]
-        public async Task GetAuthorBYIdShouldReturnAuthorIfExists()
+        public async Task GetAuthorByIdShouldReturnAuthorIfExists()
         {
             var options = new DbContextOptionsBuilder<LibraryContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
@@ -167,6 +167,7 @@ namespace Library.Tests
             var result = await repo.GetAuthorById(authorToAdd.Id);
 
             Assert.NotNull(result);
+            Assert.Equal(authorToAdd.Id, result.Id);
             Assert.Equal(authorToAdd.FirstName, result.FirstName);
             Assert.Equal(authorToAdd.LastName,result.LastName);
         }

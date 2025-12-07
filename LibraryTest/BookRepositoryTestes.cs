@@ -38,6 +38,54 @@ namespace Library.Tests
             Assert.True(bookCreated != null);
         }
 
+
+        [Fact]
+        public async Task GetBookByIdShouldReturnBookWithRelations()
+        {
+            var options = new DbContextOptionsBuilder<LibraryContext>()
+              .UseInMemoryDatabase(Guid.NewGuid().ToString())
+              .Options;
+
+            using var libContext = new LibraryContext(options);
+
+            var category = new Category { Name = "Fiction" };
+            var author = new Author
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                Site = "johndoe.com"
+            };
+
+            await libContext.Categories.AddAsync(category);
+            await libContext.Authors.AddAsync(author);
+
+            var book = new Book
+            {
+                Title = "Test Book",
+                ISBN = "1234567890",
+                Stock = 1000,
+                CategoryId = category.Id,
+                AuthorId = author.Id
+            };
+
+            await libContext.Books.AddAsync(book);
+            await libContext.SaveChangesAsync();
+
+            IBookRepository repo = new BookRepository(libContext);
+
+            var result = await repo.GetBookById(book.Id);
+
+            Assert.NotNull(result);
+            Assert.Equal(book.Id, result.Id);
+            Assert.Equal("Test Book", result.Title);
+            Assert.NotNull(result.Author);
+            Assert.Equal("John", result.Author.FirstName);
+            Assert.NotNull(result.Category);
+            Assert.Equal("Fiction", result.Category.Name);
+        }
+
+
+
         [Fact]
         public async Task UpdateBookShouldSaveUpdateIfExists()
         {

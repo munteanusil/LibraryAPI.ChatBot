@@ -12,7 +12,7 @@ namespace Library.Application.Interfaces
     {
         Task<PaginetedList<Author>> GetAuthors(int page, int pageSize, CancellationToken ct = default);
 
-        Task<Author> GetAuthorById(int id,CancellationToken ct = default);
+        Task<Author?> GetAuthorById(int id,CancellationToken ct = default);
 
         Task CreateAuthor(Author author, CancellationToken ct = default);
         Task UpdateAuthor(Author author, CancellationToken ct = default);

@@ -21,8 +21,8 @@ namespace Library.Infrastructure.Persistance
         }
         public async Task CreateAuthor(Author author, CancellationToken ct = default)
         {
-            _libraryContext.Authors.AddAsync(author,ct);
-            _libraryContext.SaveChangesAsync(ct);
+            await _libraryContext.Authors.AddAsync(author,ct);
+            await _libraryContext.SaveChangesAsync(ct);
         }
 
         public async Task DeleteAuthor(int id, CancellationToken ct = default)
@@ -36,14 +36,22 @@ namespace Library.Infrastructure.Persistance
             await _libraryContext.SaveChangesAsync();
         }
 
-        public Task<Author> GetAuthorById(int id, CancellationToken ct = default)
+        public async Task<Author?> GetAuthorById(int id, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            return await _libraryContext.Authors.FirstOrDefaultAsync(a => a.Id == id, ct);
         }
 
-        public Task<PaginetedList<Author>> GetAuthors(int page, int pageSize, CancellationToken ct = default)
+        public async Task<PaginetedList<Author>> GetAuthors(int page, int pageSize, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var total = await _libraryContext.Authors.CountAsync(ct);
+            var authors = await _libraryContext.Authors
+                .AsNoTracking()
+                .OrderBy(a => a.Id)
+                .Skip((page-1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync(ct);
+            
+            return new PaginetedList<Author>(authors, page, (int)Math.Ceiling((double)total/pageSize));
         }
 
         public async Task UpdateAuthor(Author author, CancellationToken ct = default)
