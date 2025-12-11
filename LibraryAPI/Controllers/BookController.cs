@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using FluentValidation.Results;
 using Library.Application.DTOs;
 using Library.Application.DTOs.Authors;
 using Library.Application.DTOs.Books;
@@ -8,6 +9,7 @@ using Library.Domain.Common;
 using Library.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryAPI.Controllers
 {
@@ -58,6 +60,25 @@ namespace LibraryAPI.Controllers
             var booksDto = _mapper.Map<List<BookDto>>(books.Items);
             var result = new PaginetedList<BookDto>(booksDto, dto.Page, dto.PageSize);
             return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(BookDto bookdto, CancellationToken cancellationToken)
+        {
+            var validationResult = await _validator.ValidateAsync( bookdto, cancellationToken);
+            if (validationResult.IsValid)
+            {
+                await _repository.UpdateBook(_mapper.Map<Book>(bookdto),cancellationToken);
+                return Created();
+            }
+            return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int id,CancellationToken cancellationToken)
+        {
+            await _repository.DeleteBook(id,cancellationToken);
+            return Ok();
         }
 
     }
