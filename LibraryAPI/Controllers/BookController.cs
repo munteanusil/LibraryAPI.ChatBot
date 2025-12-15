@@ -17,7 +17,7 @@ namespace LibraryAPI.Controllers
     [Route("[controller]")]
     public class BookController : Controller
     {
-        private readonly ILogger<AuthorsController> _logger;
+        private readonly ILogger<BookController> _logger;
         private readonly IBookRepository _repository;
         private readonly IMapper _mapper;
         private readonly IValidator<CreateBookDto> _validator;
@@ -38,9 +38,9 @@ namespace LibraryAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(CreateBookDto bookDto, CancellationToken cancellationToken)
         {
-         
-                await _repository.CreateBook(_mapper.Map<Book>(bookDto), cancellationToken);
-                return Created();
+               var bookToCreate = _mapper.Map<Book>(bookDto); 
+                await _repository.CreateBook(bookToCreate, cancellationToken);
+                return CreatedAtAction(nameof(Get),new {id = bookToCreate.Id},bookToCreate);
             
 
         }
@@ -54,6 +54,18 @@ namespace LibraryAPI.Controllers
             var booksDto = _mapper.Map<List<BookDto>>(books.Items);
             var result = new PaginatedList<BookDto>(booksDto, dto.Page, dto.PageSize);
             return Ok(result);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get(int id, CancellationToken cancellationToken)
+        {
+            var book = await _repository.GetBookById(id, cancellationToken);
+            if(book == null)
+            {
+                return NotFound();
+            }
+            return Ok(_mapper.Map<BookDto>(book));
         }
 
         [HttpPut]

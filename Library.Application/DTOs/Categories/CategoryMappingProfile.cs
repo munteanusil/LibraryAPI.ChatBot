@@ -12,9 +12,13 @@ namespace Library.Application.DTOs.Categories
     {
         public CategoryMappingProfile()
         {
+
             CreateMap<Category, CategoryDto>()
+             .ReverseMap();
+
+           
+            CreateMap<CreateCategoryDto, Category>()
                  .ReverseMap();
-            CreateMap<CreateCategoryDto, Category>();
         }
     }
 }

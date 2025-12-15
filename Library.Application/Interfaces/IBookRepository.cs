@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Library.Domain.Common;
+using Library.Application.DTOs.Books;
 
 namespace Library.Application.Interfaces
 {

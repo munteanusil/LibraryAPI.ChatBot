@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FluentValidation;
+using Library.Application.DTOs.Books;
+using Library.Application.DTOs.Categories;
+using Library.Application.DTOs.Genres;
 
 namespace Library.Infrastructure.Extensions
 {
@@ -34,6 +37,9 @@ namespace Library.Infrastructure.Extensions
         public static IServiceCollection ConfigureAutoMapper(this IServiceCollection services)
         {
             services.AddAutoMapper(typeof(AuthorMappingProfile).Assembly);
+            services.AddAutoMapper(typeof(BookMappingProfile).Assembly);
+            services.AddAutoMapper(typeof(CategoryMappingProfile).Assembly);
+            services.AddAutoMapper(typeof(GenreMappingProfile).Assembly);
             return services;
         }
 

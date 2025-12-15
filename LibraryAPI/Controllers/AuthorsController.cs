@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using Library.Application.DTOs;
 using Library.Application.DTOs.Authors;
@@ -30,19 +30,53 @@ namespace LibraryAPI.Controllers
             _paginatedValidator = paginatedValidator;
         }
 
+        //[HttpPost]
+        //public async Task<IActionResult> Post(CreateAuthorDto authorDto, CancellationToken cancellationToken)
+        //{
+        //    var validationResult = await _validator.ValidateAsync(authorDto, cancellationToken);
+        //    if (validationResult.IsValid)
+        //    {
+        //        var authorToCreate = _mapper.Map<Author>(authorDto);
+        //        await _repository.CreateAuthor(authorToCreate, cancellationToken);
+        //        return CreatedAtAction(nameof(Get),new { id = authorToCreate.Id }, _mapper.Map<AuthorDto>(authorToCreate));
+        //    }
+
+        //    return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+
+        //}
         [HttpPost]
         public async Task<IActionResult> Post(CreateAuthorDto authorDto, CancellationToken cancellationToken)
         {
-            var validationResult = await _validator.ValidateAsync(authorDto, cancellationToken);
-            if (validationResult.IsValid)
+            try
             {
+                // 1. Validarea
+                var validationResult = await _validator.ValidateAsync(authorDto, cancellationToken);
+                if (!validationResult.IsValid)
+                {
+                    return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
+                }
+
+                // 2. Maparea Author
                 var authorToCreate = _mapper.Map<Author>(authorDto);
+
+                // 3. Salvarea în DB
                 await _repository.CreateAuthor(authorToCreate, cancellationToken);
-                return CreatedAtAction(nameof(Get),new { id = authorToCreate.Id }, _mapper.Map<AuthorDto>(authorToCreate));
+
+                // 4. Maparea Răspunsului (AICI CRED CĂ CRAPĂ)
+                var resultDto = _mapper.Map<AuthorDto>(authorToCreate);
+
+                return CreatedAtAction(nameof(Get), new { id = authorToCreate.Id }, resultDto);
             }
-
-            return BadRequest(validationResult.Errors.Select(e => e.ErrorMessage));
-
+            catch (Exception ex)
+            {
+                // Asta ne va arăta eroarea reală (InnerException este cheia)
+                return StatusCode(500, new
+                {
+                    Error = ex.Message,
+                    InnerError = ex.InnerException?.Message,
+                    StackTrace = ex.StackTrace
+                });
+            }
         }
 
         [HttpGet]
