@@ -21,5 +21,7 @@ namespace Library.Application.DTOs.Authors
         public string? Site { get; set; }
         
         public ICollection<BookDto>? Books { get; set; }
+
+        public ICollection<int> GenreIds { get; set; }
     }
 }

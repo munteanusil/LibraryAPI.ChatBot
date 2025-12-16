@@ -1,4 +1,5 @@
 ﻿using Library.Application.DTOs.Authors;
+using Library.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace Library.Application.DTOs.Books
     public class BookDto : CreateBookDto
     {
         public  int Id  { get; set; }
+
+        public AuthorDto? Author { get; set; }
 
     }
 }

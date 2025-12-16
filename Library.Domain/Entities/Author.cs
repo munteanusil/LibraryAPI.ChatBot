@@ -10,8 +10,15 @@ namespace Library.Domain.Entities
     {
         public Author()
         {
-            Books = new HashSet<Book>();
-            AuthorGeneres = new HashSet<AuthorGeneres>();
+            
+        }
+        public Author(Author author)
+        {
+            Id = author.Id;
+            FirstName = author.FirstName;
+            LastName = author.LastName;
+            Nationality = author.Nationality;
+            Site = author.Site;
         }
 
         public int Id { get; set; }

@@ -8,6 +8,17 @@ namespace Library.Domain.Entities
 {
     public class AuthorGeneres
     {
+
+        public AuthorGeneres()
+        {
+            
+        }
+
+        public AuthorGeneres(int authorid,int genreId)
+        {
+            authorid = authorid;
+            GenreId = genreId;
+        }
         public int AuthorId { get; set; }
 
         public Author? Author { get; set; }

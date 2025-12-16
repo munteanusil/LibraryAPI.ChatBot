@@ -14,7 +14,7 @@ namespace Library.Infrastructure.Persistance
     public class AuthorRepository : IAuthorRepository
     {
         private readonly LibraryContext _libraryContext;
-
+        private static readonly Func<LibraryContext, int, Task<Author?>> GetAuthorByIdCompiled = EF.CompileAsyncQuery((LibraryContext context, int id) => context.Authors.FirstOrDefault(a => a.Id == id));
         public AuthorRepository(LibraryContext libraryContext)
         {
             _libraryContext = libraryContext;
@@ -36,12 +36,9 @@ namespace Library.Infrastructure.Persistance
             await _libraryContext.SaveChangesAsync();
         }
 
-        public async Task<Author?> GetAuthorById(int id, CancellationToken ct = default)
-        {
-            return await _libraryContext.Authors
-                .Include(a => a.Books)
-                .FirstOrDefaultAsync(a => a.Id == id, ct);
-        }
+        public async Task<Author?> GetAuthorById(int id, CancellationToken ct = default) =>
+           await GetAuthorByIdCompiled(_libraryContext, id);
+       
 
         public async Task<PaginatedList<Author>> GetAuthors(int page, int pageSize, CancellationToken ct = default)
         {
