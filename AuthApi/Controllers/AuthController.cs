@@ -21,7 +21,7 @@ namespace AuthApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GoogleCallBack()
+        public async Task<IActionResult> GoogleCallBack(string code,CancellationToken cancelationToken  )
         {
             return Ok();
         }

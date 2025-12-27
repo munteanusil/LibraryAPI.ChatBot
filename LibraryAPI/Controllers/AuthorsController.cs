@@ -12,6 +12,7 @@ namespace LibraryAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
 
     public class AuthorsController : ControllerBase
     {

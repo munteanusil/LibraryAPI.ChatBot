@@ -25,7 +25,7 @@ namespace Library.Infrastructure.Persistance
 
         public async Task<User?> GetUserByEmail(string email, CancellationToken ct = default)
         {
-            await _context.Users.FirstOrDefaultAsync(e => e.Email == email,ct);
+            return await _context.Users.FirstOrDefaultAsync(e => e.Email == email,ct);
         }
     }
 }

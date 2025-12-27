@@ -11,6 +11,7 @@ namespace LibraryAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[Authorize]
 public class GenreController : ControllerBase
 {
     private readonly IGenreRepository _repository;

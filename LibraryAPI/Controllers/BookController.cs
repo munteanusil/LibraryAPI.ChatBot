@@ -16,7 +16,8 @@ namespace LibraryAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-   
+    [Authorize]
+
     public class BookController : Controller
     {
         private readonly ILogger<BookController> _logger;
